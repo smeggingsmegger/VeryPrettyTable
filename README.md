@@ -1,6 +1,8 @@
 PrettyTable
 ===========
 
+[![Build Status](https://secure.travis-ci.org/smeggingsmegger/PrettyTable.png)](https://travis-ci.org/smeggingsmegger/PrettyTable)
+
 This is a fork of the excellent project by Luke Maurits.
 
 It is a simple Python library for easily displaying tabular data in a visually appealing ASCII table format
