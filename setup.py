@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 from setuptools import setup
-from prettytable import __version__ as version
 
 setup(
     name='prettytable',
-    version=version,
+    version='0.8.0',
     classifiers=[
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.4',
@@ -21,5 +20,6 @@ setup(
     author_email='luke@maurits.id.au',
     url='http://code.google.com/p/prettytable',
     py_modules=['prettytable'],
-    test_suite = "prettytable_test"
+    test_suite = "prettytable_test",
+    install_requires=['termcolor', 'colorama']
 )

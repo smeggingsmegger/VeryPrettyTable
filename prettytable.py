@@ -29,8 +29,6 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-__version__ = "trunk"
-
 import copy
 import csv
 import itertools
@@ -40,6 +38,10 @@ import re
 import sys
 import textwrap
 import unicodedata
+
+from colorama import init
+from termcolor import colored
+init()
 
 py3k = sys.version_info[0] >= 3
 if py3k:
@@ -124,6 +126,8 @@ class PrettyTable(object):
         self._max_width = {}
         self._min_width = {}
         self._rows = []
+        self._fore_colors = []
+        self._back_colors = []
         if field_names:
             self.field_names = field_names
         else:
@@ -887,7 +891,7 @@ class PrettyTable(object):
     # DATA INPUT METHODS         #
     ##############################
 
-    def add_row(self, row):
+    def add_row(self, row, **kwargs):
 
         """Add a row to the table
 
@@ -895,12 +899,29 @@ class PrettyTable(object):
 
         row - row of data, should be a list with as many elements as the table
         has fields"""
+        fore_colors = ('grey', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white')
+        back_colors = ('on_grey', 'on_red', 'on_green', 'on_yellow', 'on_blue', 'on_magenta', 'on_cyan', 'on_white')
+
+        fore_color = kwargs.get('fore_color')
+        back_color = kwargs.get('back_color')
+
+        if fore_color:
+            fore_color = fore_color.lower()
+            if fore_color not in fore_colors:
+                raise Exception("Incorrect fore_color option. The available options are {}".format(fore_colors))
+
+        if back_color:
+            back_color = back_color.lower()
+            if back_color not in back_colors:
+                raise Exception("Incorrect back_color option. The available options are {}".format(back_colors))
 
         if self._field_names and len(row) != len(self._field_names):
             raise Exception("Row has incorrect number of values, (actual) %d!=%d (expected)" %(len(row),len(self._field_names)))
         if not self._field_names:
             self.field_names = [("Field %d" % (n+1)) for n in range(0,len(row))]
         self._rows.append(list(row))
+        self._fore_colors.append(fore_color)
+        self._back_colors.append(back_color)
 
     def del_row(self, row_index):
 
@@ -1130,8 +1151,8 @@ class PrettyTable(object):
             lines.append(self._hrule)
 
         # Add rows
-        for row in formatted_rows:
-            lines.append(self._stringify_row(row, options))
+        for index, row in enumerate(formatted_rows):
+            lines.append(self._stringify_row(row, options, index))
 
         # Add bottom of border
         if options["border"] and options["hrules"] == FRAME:
@@ -1232,7 +1253,7 @@ class PrettyTable(object):
             bits.append(self._hrule)
         return "".join(bits)
 
-    def _stringify_row(self, row, options):
+    def _stringify_row(self, row, options, idx):
 
         for index, field, value, width, in zip(range(0,len(row)), self._field_names, row, self._widths):
             # Enforce max widths
@@ -1302,7 +1323,27 @@ class PrettyTable(object):
         for y in range(0, row_height):
             bits[y] = "".join(bits[y])
 
-        return "\n".join(bits)
+        ret_string = "\n".join(bits)
+        fore_color = None
+        try:
+            fore_color = self._fore_colors[idx]
+        except IndexError:
+            pass
+
+        back_color = None
+        try:
+            back_color = self._back_colors[idx]
+        except IndexError:
+            pass
+
+        if fore_color and back_color:
+            ret_string = colored(ret_string, fore_color, back_color)
+        elif fore_color:
+            ret_string = colored(ret_string, fore_color)
+        elif back_color:
+            ret_string = colored(ret_string, None, back_color)
+
+        return ret_string
 
     def paginate(self, page_length=58, **kwargs):
 
