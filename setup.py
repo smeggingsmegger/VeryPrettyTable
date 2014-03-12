@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='prettytable',
-    version='0.8.0',
+    version='0.8.1',
     classifiers=[
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.4',

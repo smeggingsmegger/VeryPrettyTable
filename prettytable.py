@@ -119,6 +119,10 @@ class PrettyTable(object):
 
         self.encoding = kwargs.get("encoding", "UTF-8")
 
+        # Color support
+        self.fore_colors = ('grey', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white')
+        self.back_colors = ('on_grey', 'on_red', 'on_green', 'on_yellow', 'on_blue', 'on_magenta', 'on_cyan', 'on_white')
+
         # Data
         self._field_names = []
         self._align = {}
@@ -134,7 +138,7 @@ class PrettyTable(object):
             self._widths = []
 
         # Options
-        self._options = "title start end fields header border sortby reversesort sort_key attributes format hrules vrules".split()
+        self._options = "title start end fields header border sortby reversesort sort_key attributes format hrules vrules fore_color back_color".split()
         self._options.extend("int_format float_format min_table_width max_table_width padding_width left_padding_width right_padding_width".split())
         self._options.extend("vertical_char horizontal_char junction_char header_style valign xhtml print_empty oldsortslice".split())
         for option in self._options:
@@ -147,6 +151,8 @@ class PrettyTable(object):
         self._start = kwargs["start"] or 0
         self._end = kwargs["end"] or None
         self._fields = kwargs["fields"] or None
+        self._fore_color = kwargs["fore_color"] or None
+        self._back_color = kwargs["back_color"] or None
 
         if kwargs["header"] in (True, False):
             self._header = kwargs["header"]
@@ -297,6 +303,10 @@ class PrettyTable(object):
             self._validate_single_char(option, val)
         elif option in ("attributes"):
             self._validate_attributes(option, val)
+        elif option in ("fore_color"):
+            self._validate_fore_color(option, val)
+        elif option in ("back_color"):
+            self._validate_back_color(option, val)
 
     def _validate_field_names(self, val):
         # Check for appropriate length
@@ -411,6 +421,18 @@ class PrettyTable(object):
         except AssertionError:
             raise Exception("attributes must be a dictionary of name/value pairs!")
 
+    def _validate_fore_color(self, val):
+        try:
+            assert val in self.fore_colors
+        except AssertionError:
+            raise Exception("fore_color {} is invalid, use {}!".format(val, self.fore_colors))
+
+    def _validate_back_color(self, val):
+        try:
+            assert val in self.back_colors
+        except AssertionError:
+            raise Exception("back_color {} is invalid, use {}!".format(val, self.back_colors))
+
     ##############################
     # ATTRIBUTE MANAGEMENT       #
     ##############################
@@ -454,6 +476,24 @@ class PrettyTable(object):
         self._validate_align(val)
         for field in self._field_names:
             self._align[field] = val
+
+    @property
+    def fore_color(self):
+        return self._fore_color
+
+    @fore_color.setter
+    def fore_color(self, val):
+        self._validate_fore_color(val)
+        self._fore_color = val
+
+    @property
+    def back_color(self):
+        return self._back_color
+
+    @back_color.setter
+    def back_color(self, val):
+        self._validate_back_color(val)
+        self._back_color = val
 
     @property
     def valign(self):
@@ -899,21 +939,18 @@ class PrettyTable(object):
 
         row - row of data, should be a list with as many elements as the table
         has fields"""
-        fore_colors = ('grey', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white')
-        back_colors = ('on_grey', 'on_red', 'on_green', 'on_yellow', 'on_blue', 'on_magenta', 'on_cyan', 'on_white')
-
         fore_color = kwargs.get('fore_color')
         back_color = kwargs.get('back_color')
 
         if fore_color:
             fore_color = fore_color.lower()
-            if fore_color not in fore_colors:
-                raise Exception("Incorrect fore_color option. The available options are {}".format(fore_colors))
+            if fore_color not in self.fore_colors:
+                raise Exception("Incorrect fore_color option. The available options are {}".format(self.fore_colors))
 
         if back_color:
             back_color = back_color.lower()
-            if back_color not in back_colors:
-                raise Exception("Incorrect back_color option. The available options are {}".format(back_colors))
+            if back_color not in self.back_colors:
+                raise Exception("Incorrect back_color option. The available options are {}".format(self.back_colors))
 
         if self._field_names and len(row) != len(self._field_names):
             raise Exception("Row has incorrect number of values, (actual) %d!=%d (expected)" %(len(row),len(self._field_names)))
@@ -1158,7 +1195,20 @@ class PrettyTable(object):
         if options["border"] and options["hrules"] == FRAME:
             lines.append(self._hrule)
 
-        return self._unicode("\n").join(lines)
+        all_lines = []
+        for line in lines:
+            if '\n' in line:
+                new_lines = line.split('\n')
+                for new_line in new_lines:
+                    all_lines.append(new_line)
+            else:
+                all_lines.append(line)
+
+        if self._fore_color or self._back_color:
+            lines = [colored(line, self._fore_color, self._back_color) for line in all_lines]
+
+        return_value = self._unicode("\n").join(lines)
+        return return_value
 
     def _stringify_hrule(self, options):
 
