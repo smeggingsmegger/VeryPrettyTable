@@ -1,14 +1,13 @@
-PrettyTable
+VeryPrettyTable
 ===========
 
-[![Build Status](https://secure.travis-ci.org/smeggingsmegger/PrettyTable.png)](https://travis-ci.org/smeggingsmegger/PrettyTable)
+[![Build Status](https://secure.travis-ci.org/smeggingsmegger/VeryPrettyTable.png)](https://travis-ci.org/smeggingsmegger/VeryPrettyTable)
 
-This is a fork of the excellent project by Luke Maurits.
+This is a fork of the excellent project (PrettyTable) by Luke Maurits.
 
 It is a simple Python library for easily displaying tabular data in a visually appealing ASCII table format
 
-
-PrettyTable is a simple Python library designed to make it quick and easy to represent tabular data in visually appealing ASCII tables, like this:
+VeryPrettyTable is a simple Python library designed to make it quick and easy to represent tabular data in visually appealing ASCII tables, like this:
 ```
 +-----------+------+------------+-----------------+
 | City name | Area | Population | Annual Rainfall |
@@ -22,33 +21,27 @@ PrettyTable is a simple Python library designed to make it quick and easy to rep
 | Sydney    | 2058 |  4336374   |      1214.8     |
 +-----------+------+------------+-----------------+
 ```
-PrettyTable lets you control many aspects of the table, like the width of the column padding, the alignment of text within columns, which characters are used to draw the table border, whether you even want a border, and much more. You can control which subsets of the columns and rows are printed, and you can sort the rows by the value of a particular column.
+VeryPrettyTable lets you control many aspects of the table, like the width of the column padding, the alignment of text within columns, which characters are used to draw the table border, whether you even want a border, and much more. You can control which subsets of the columns and rows are printed, and you can sort the rows by the value of a particular column.
 
-PrettyTable can also generate HTML code with the data in a table structure. All of the options available for controlling ASCII tables are also available for HTML tables, except in cases where this would not make sense.
+VeryPrettyTable can also generate HTML code with the data in a table structure. All of the options available for controlling ASCII tables are also available for HTML tables, except in cases where this would not make sense.
 
 The "featured Wiki articles" in the green box to your right should contain enough information to get you started.
 
-If you find PrettyTable useful, and especially if you use PrettyTable as part of your business or to otherwise make money, please consider making a completely voluntary donation to show your appreciation and encourage future work on the project, using the PayPal button on his website:
+If you find VeryPrettyTable useful, and especially if you use VeryPrettyTable as part of your business or to otherwise make money, please consider making a completely voluntary donation to show your appreciation and encourage future work on the project, using the PayPal button on his website:
 
 https://code.google.com/p/prettytable/
 
 ------------------------------------------------------------------------------
 
-TUTORIAL ON HOW TO USE THE PRETTYTABLE 0.6+ API
-
-*** This tutorial is distributed with PrettyTable and is meant to serve
-as a "quick start" guide for the lazy or impatient.  It is not an
-exhaustive description of the whole API, and it is not guaranteed to be
-100% up to date.  For more complete and update documentation, check the
-PrettyTable wiki at http://code.google.com/p/prettytable/w/list ***
+TUTORIAL ON HOW TO USE THE VERYPRETTYTABLE 0.6+ API
 
 = Getting your data into (and out of) the table =
 
-Let's suppose you have a shiny new PrettyTable:
+Let's suppose you have a shiny new VeryPrettyTable:
 
 ```python
-from prettytable import PrettyTable
-x = PrettyTable()
+from prettytable import VeryPrettyTable
+x = VeryPrettyTable()
 ```
 
 and you want to put some data into it.  You have a few options.
@@ -96,7 +89,7 @@ this unless you have a good reason.
 == Importing data from a CSV file ==
 
 If you have your table data in a comma separated values file (.csv), you can
-read this data into a PrettyTable like this:
+read this data into a VeryPrettyTable like this:
 
 ```python
 from prettytable import from_csv
@@ -107,7 +100,7 @@ fp.close()
 
 == Importing data from a database cursor ==
 
-If you have your table data in a database which you can access using a library which confirms to the Python DB-API (e.g. an SQLite database accessible using the sqlite module), then you can build a PrettyTable using a cursor object, like this:
+If you have your table data in a database which you can access using a library which confirms to the Python DB-API (e.g. an SQLite database accessible using the sqlite module), then you can build a VeryPrettyTable using a cursor object, like this:
 
 ```python
 import sqlite3
@@ -121,7 +114,7 @@ mytable = from_cursor(cursor)
 
 == Getting data out ==
 
-There are three ways to get data out of a PrettyTable, in increasing order of 
+There are three ways to get data out of a VeryPrettyTable, in increasing order of 
 completeness:
 
   * The `del_row` method takes an integer index of a single row to delete.
@@ -134,7 +127,7 @@ style related settings, discussed later, are maintained.
 
 = Displaying your table in ASCII form =
 
-PrettyTable's main goal is to let you print tables in an attractive ASCII form, 
+VeryPrettyTable's main goal is to let you print tables in an attractive ASCII form, 
 like this:
 
 ```
@@ -364,9 +357,9 @@ instance of the data in the `sort_by` column.
 
 = Changing the appearance of your table - the easy way =
 
-By default, PrettyTable produces ASCII tables that look like the ones used in 
+By default, VeryPrettyTable produces ASCII tables that look like the ones used in 
 SQL database shells.  But if can print them in a variety of other formats as 
-well.  If the format you want to use is common, PrettyTable makes this very 
+well.  If the format you want to use is common, VeryPrettyTable makes this very 
 easy for you to do using the `set_style` method.  If you want to produce an 
 uncommon table, you'll have to do things slightly harder (see later).
 
@@ -401,7 +394,7 @@ Don't worry, it's not really that hard!
 
 == Style options ==
 
-PrettyTable has a number of style options which control various aspects of how 
+VeryPrettyTable has a number of style options which control various aspects of how 
 tables are displayed.  You have the freedom to set each of these options 
 individually to whatever you prefer.  The `set_style` method just does this 
 automatically for you.
@@ -466,12 +459,12 @@ creating your table, you can specify them using keyword arguments to the
 constructor.  For example, the following two code blocks are equivalent:
 
 ```python
-x = PrettyTable()
+x = VeryPrettyTable()
 x.border = False
 x.header = False
 x.padding_width = 5
 
-x = PrettyTable(border=False, header=False, padding_width=5)
+x = VeryPrettyTable(border=False, header=False, padding_width=5)
 ```
 
 == Changing style options just once ==
@@ -489,7 +482,7 @@ print x
 
 = Displaying your table in HTML form =
 
-PrettyTable will also print your tables in HTML form, as `<table>`s.  Just like 
+VeryPrettyTable will also print your tables in HTML form, as `<table>`s.  Just like 
 in ASCII form, you can actually print your table - just use `print_html()` - or 
 get a string representation - just use `get_html_string()`.  HTML printing 
 supports the `fields`, `start`, `end`, `sortby` and `reversesort` arguments in 
@@ -497,7 +490,7 @@ exactly the same way as ASCII printing.
 
 == Styling HTML tables ==
 
-By default, PrettyTable outputs HTML for "vanilla" tables.  The HTML code is 
+By default, VeryPrettyTable outputs HTML for "vanilla" tables.  The HTML code is 
 quite simple.  It looks like this:
 
 ```html
@@ -524,7 +517,7 @@ quite simple.  It looks like this:
 </table>
 ```
 
-If you like, you can ask PrettyTable to do its best to mimick the style options 
+If you like, you can ask VeryPrettyTable to do its best to mimick the style options 
 that your table has set using inline CSS.  This is done by giving a 
 `format=True` keyword argument to either the `print_html` or `get_html_string` 
 methods.  Note that if you _always_ want to print formatted HTML you can do:
@@ -571,10 +564,10 @@ will print:
 
 == Copying a table ==
 
-You can call the `copy` method on a PrettyTable object without arguments to 
+You can call the `copy` method on a VeryPrettyTable object without arguments to 
 return an identical independent copy of the table.
 
-If you want a copy of a PrettyTable object with just a subset of the rows,
+If you want a copy of a VeryPrettyTable object with just a subset of the rows,
 you can use list slicing notation:
 
 new_table = old_table[0:5]

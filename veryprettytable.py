@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+# VeryPrettyTable copyright:
+#
+# Copyright (c) 2014, Scott Blevins <sblevins@gmail.com>
+#
+# PrettyTable copyright:
 #
 # Copyright (c) 2009-2013, Luke Maurits <luke@maurits.id.au>
 # All rights reserved.
@@ -82,11 +87,11 @@ def _get_size(text):
     width = max([_str_block_width(line) for line in lines])
     return (width, height)
 
-class PrettyTable(object):
+class VeryPrettyTable(object):
 
     def __init__(self, field_names=None, **kwargs):
 
-        """Return a new PrettyTable instance
+        """Return a new VeryPrettyTable instance
 
         Arguments:
 
@@ -241,7 +246,7 @@ class PrettyTable(object):
 
     def __getitem__(self, index):
 
-        new = PrettyTable()
+        new = VeryPrettyTable()
         new.field_names = self.field_names
         for attr in self._options:
             setattr(new, "_"+attr, getattr(self, "_"+attr))
@@ -1620,7 +1625,7 @@ def from_csv(fp, field_names = None, **kwargs):
         fp.seek(0)
         reader = csv.reader(fp, dialect)
 
-    table = PrettyTable(**kwargs)
+    table = VeryPrettyTable(**kwargs)
     if field_names:
         table.field_names = field_names
     else:
@@ -1637,7 +1642,7 @@ def from_csv(fp, field_names = None, **kwargs):
 def from_db_cursor(cursor, **kwargs):
 
     if cursor.description:
-        table = PrettyTable(**kwargs)
+        table = VeryPrettyTable(**kwargs)
         table.field_names = [col[0] for col in cursor.description]
         for row in cursor.fetchall():
             table.add_row(row)
@@ -1694,9 +1699,9 @@ class TableHandler(HTMLParser):
 
     def generate_table(self, rows):
         """
-        Generates from a list of rows a PrettyTable object.
+        Generates from a list of rows a VeryPrettyTable object.
         """
-        table = PrettyTable(**self.kwargs)
+        table = VeryPrettyTable(**self.kwargs)
         for row in self.rows:
             if len(row[0]) < self.max_row_width:
                 appends = self.max_row_width - len(row[0])
@@ -1721,8 +1726,8 @@ class TableHandler(HTMLParser):
 
 def from_html(html_code, **kwargs):
     """
-    Generates a list of PrettyTables from a string of HTML code. Each <table> in
-    the HTML becomes one PrettyTable object.
+    Generates a list of VeryPrettyTables from a string of HTML code. Each <table> in
+    the HTML becomes one VeryPrettyTable object.
     """
 
     parser = TableHandler(**kwargs)
@@ -1731,7 +1736,7 @@ def from_html(html_code, **kwargs):
 
 def from_html_one(html_code, **kwargs):
     """
-    Generates a PrettyTables from a string of HTML code which contains only a
+    Generates a VeryPrettyTables from a string of HTML code which contains only a
     single <table>
     """
 
@@ -1748,7 +1753,7 @@ def from_html_one(html_code, **kwargs):
 
 def main():
 
-    x = PrettyTable(["City name", "Area", "Population", "Annual Rainfall"])
+    x = VeryPrettyTable(["City name", "Area", "Population", "Annual Rainfall"])
     x.title = "Australian capital cities"
     x.sortby = "Population"
     x.reversesort = True

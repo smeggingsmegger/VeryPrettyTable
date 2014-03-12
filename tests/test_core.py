@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=UTF-8
 
-from prettytable import *
+from veryprettytable import *
 
 import sys
 py3k = sys.version_info[0] >= 3
@@ -24,7 +24,7 @@ class BuildEquivelanceTest(unittest.TestCase):
     def setUp(self):
 
         # Row by row...
-        self.row = PrettyTable()
+        self.row = VeryPrettyTable()
         self.row.field_names = ["City name", "Area", "Population", "Annual Rainfall"]
         self.row.add_row(["Adelaide",1295, 1158259, 600.5])
         self.row.add_row(["Brisbane",5905, 1857594, 1146.4])
@@ -35,14 +35,14 @@ class BuildEquivelanceTest(unittest.TestCase):
         self.row.add_row(["Perth", 5386, 1554769, 869.4])
 
         # Column by column...
-        self.col = PrettyTable()
+        self.col = VeryPrettyTable()
         self.col.add_column("City name",["Adelaide","Brisbane","Darwin","Hobart","Sydney","Melbourne","Perth"])
         self.col.add_column("Area", [1295, 5905, 112, 1357, 2058, 1566, 5386])
         self.col.add_column("Population", [1158259, 1857594, 120900, 205556, 4336374, 3806092, 1554769])
         self.col.add_column("Annual Rainfall",[600.5, 1146.4, 1714.7, 619.5, 1214.8, 646.9, 869.4])
 
         # A mix of both!
-        self.mix = PrettyTable()
+        self.mix = VeryPrettyTable()
         self.mix.field_names = ["City name", "Area"]
         self.mix.add_row(["Adelaide",1295])
         self.mix.add_row(["Brisbane",5905])
@@ -75,7 +75,7 @@ class BuildEquivelanceTest(unittest.TestCase):
 #    """Make sure that building and stringing a table with no fieldnames works fine"""
 #
 #    def setUp(self):
-#        self.x = PrettyTable()
+#        self.x = VeryPrettyTable()
 #        self.x.add_row(["Adelaide",1295, 1158259, 600.5])
 #        self.x.add_row(["Brisbane",5905, 1857594, 1146.4])
 #        self.x.add_row(["Darwin", 112, 120900, 1714.7])
@@ -100,7 +100,7 @@ class CityDataTest(unittest.TestCase):
 
     def setUp(self):
 
-        self.x = PrettyTable(["City name", "Area", "Population", "Annual Rainfall"])
+        self.x = VeryPrettyTable(["City name", "Area", "Population", "Annual Rainfall"])
         self.x.add_row(["Adelaide",1295, 1158259, 600.5])
         self.x.add_row(["Brisbane",5905, 1857594, 1146.4])
         self.x.add_row(["Darwin", 112, 120900, 1714.7])
@@ -117,7 +117,7 @@ class ColorTableTest(unittest.TestCase):
 
     def setUp(self):
 
-        self.x = PrettyTable(["City name", "Area", "Population", "Annual Rainfall"])
+        self.x = VeryPrettyTable(["City name", "Area", "Population", "Annual Rainfall"])
         self.x.add_row(["Adelaide",1295, 1158259, 600.5], fore_color='red', back_color='on_white')
         self.x.add_row(["Brisbane",5905, 1857594, 1146.4], fore_color='green', back_color='on_grey')
         self.x.add_row(["Darwin", 112, 120900, 1714.7], fore_color='blue')
@@ -126,7 +126,7 @@ class ColorTableTest(unittest.TestCase):
         self.x.add_row(["Melbourne", 1566, 3806092, 646.9])
         self.x.add_row(["Perth", 5386, 1554769, 869.4])
 
-        self.y = PrettyTable(["City name", "Area", "Population", "Annual Rainfall"])
+        self.y = VeryPrettyTable(["City name", "Area", "Population", "Annual Rainfall"])
         self.y.add_row(["Adelaide",1295, 1158259, 600.5])
         self.y.add_row(["Brisbane",5905, 1857594, 1146.4])
         self.y.add_row(["Darwin", 112, 120900, 1714.7])
@@ -269,7 +269,7 @@ class EmptyTableTests(CityDataTest):
 
     def setUp(self):
         CityDataTest.setUp(self)
-        self.y = PrettyTable()
+        self.y = VeryPrettyTable()
         self.y.field_names = ["City name", "Area", "Population", "Annual Rainfall"]
 
     def testPrintEmptyTrue(self):
@@ -365,7 +365,7 @@ class SortingTests(CityDataTest):
 
     def testSortSlice(self):
         """Make sure sorting and slicing interact in the expected way"""
-        x = PrettyTable(["Foo"])
+        x = VeryPrettyTable(["Foo"])
         for i in range(20, 0, -1):
             x.add_row([i])
         newstyle = x.get_string(sortby="Foo", end=10)
@@ -394,7 +394,7 @@ class FloatFormatBasicTests(BasicTests):
 class FloatFormatTests(unittest.TestCase):
 
     def setUp(self):
-        self.x = PrettyTable(["Constant", "Value"])
+        self.x = VeryPrettyTable(["Constant", "Value"])
         self.x.add_row(["Pi", pi]) 
         self.x.add_row(["e", e]) 
         self.x.add_row(["sqrt(2)", sqrt(2)]) 
@@ -424,7 +424,7 @@ class FloatFormatTests(unittest.TestCase):
 
 class BreakLineTests(unittest.TestCase):
     def testAsciiBreakLine(self):
-        t = PrettyTable(['Field 1', 'Field 2'])
+        t = VeryPrettyTable(['Field 1', 'Field 2'])
         t.add_row(['value 1', 'value2\nsecond line'])
         t.add_row(['value 3', 'value4'])
         result = t.get_string(hrules=ALL)
@@ -439,7 +439,7 @@ class BreakLineTests(unittest.TestCase):
 +---------+-------------+
 """.strip()
 
-        t = PrettyTable(['Field 1', 'Field 2'])
+        t = VeryPrettyTable(['Field 1', 'Field 2'])
         t.add_row(['value 1', 'value2\nsecond line'])
         t.add_row(['value 3\n\nother line', 'value4\n\n\nvalue5'])
         result = t.get_string(hrules=ALL)
@@ -457,7 +457,7 @@ class BreakLineTests(unittest.TestCase):
 +------------+-------------+
 """.strip()
 
-        t = PrettyTable(['Field 1', 'Field 2'])
+        t = VeryPrettyTable(['Field 1', 'Field 2'])
         t.add_row(['value 1', 'value2\nsecond line'])
         t.add_row(['value 3\n\nother line', 'value4\n\n\nvalue5'])
         result = t.get_string()
@@ -475,7 +475,7 @@ class BreakLineTests(unittest.TestCase):
 """.strip()
 
     def testHtmlBreakLine(self):
-        t = PrettyTable(['Field 1', 'Field 2'])
+        t = VeryPrettyTable(['Field 1', 'Field 2'])
         t.add_row(['value 1', 'value2\nsecond line'])
         t.add_row(['value 3', 'value4'])
         result = t.get_html_string(hrules=ALL)
@@ -499,7 +499,7 @@ class BreakLineTests(unittest.TestCase):
 class HtmlOutputTests(unittest.TestCase):
 
     def testHtmlOutput(self):
-        t = PrettyTable(['Field 1', 'Field 2', 'Field 3'])
+        t = VeryPrettyTable(['Field 1', 'Field 2', 'Field 3'])
         t.add_row(['value 1', 'value2', 'value3'])
         t.add_row(['value 4', 'value5', 'value6'])
         t.add_row(['value 7', 'value8', 'value9'])
@@ -530,7 +530,7 @@ class HtmlOutputTests(unittest.TestCase):
 """.strip()
 
     def testHtmlOutputFormated(self):
-        t = PrettyTable(['Field 1', 'Field 2', 'Field 3'])
+        t = VeryPrettyTable(['Field 1', 'Field 2', 'Field 3'])
         t.add_row(['value 1', 'value2', 'value3'])
         t.add_row(['value 4', 'value5', 'value6'])
         t.add_row(['value 7', 'value8', 'value9'])
@@ -623,7 +623,7 @@ class PrintJapanestTest(unittest.TestCase):
 
     def setUp(self):
 
-        self.x = PrettyTable(["Kanji", "Hiragana", "English"])
+        self.x = VeryPrettyTable(["Kanji", "Hiragana", "English"])
         self.x.add_row(["神戸", "こうべ", "Kobe"])
         self.x.add_row(["京都", "きょうと", "Kyoto"])
         self.x.add_row(["長崎", "ながさき", "Nagasaki"])
