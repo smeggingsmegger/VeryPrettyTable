@@ -1747,6 +1747,22 @@ def from_html_one(html_code, **kwargs):
         raise Exception("More than one <table> in provided HTML code!  Use from_html instead.")
     return tables[0]
 
+def from_django_query(query_set, **kwargs):
+    if type(query_set).__name__ == 'ValuesListQuerySet':
+        itr = query_set
+    elif type(query_set).__name__ == 'ValuesQuerySet':
+        itr = query_set.values_list(*query_set.field_names)
+    elif type(query_set).__name__ == 'QuerySet':
+        itr = query_set.values_list()
+    else:
+        raise ValueError("Type %s is unknown to this function" % (str(type(query_set).__name__)))
+
+    table = VeryPrettyTable(**kwargs)
+    table.field_names = itr.field_names
+    for row in itr:
+        table.add_row(row)
+    return table
+
 ##############################
 # MAIN (TEST FUNCTION)       #
 ##############################
