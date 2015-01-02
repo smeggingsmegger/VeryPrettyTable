@@ -40,7 +40,7 @@ TUTORIAL ON HOW TO USE THE VERYPRETTYTABLE 0.6+ API
 Let's suppose you have a shiny new VeryPrettyTable:
 
 ```python
-from prettytable import VeryPrettyTable
+from veryprettytable import VeryPrettyTable
 x = VeryPrettyTable()
 ```
 
@@ -92,7 +92,7 @@ If you have your table data in a comma separated values file (.csv), you can
 read this data into a VeryPrettyTable like this:
 
 ```python
-from prettytable import from_csv
+from veryprettytable import from_csv
 fp = open("myfile.csv", "r")
 mytable = from_csv(fp)
 fp.close()
@@ -104,7 +104,7 @@ If you have your table data in a database which you can access using a library w
 
 ```python
 import sqlite3
-from prettytable import from_cursor
+from veryprettytable import from_cursor
 
 connection = sqlite3.connect("mydb.db")
 cursor = connection.cursor()
@@ -370,7 +370,7 @@ calls to `print` or `get_string`.  Here's how to print a table in a format
 which works nicely with Microsoft Word's "Convert to table" feature:
 
 ```python
-from prettytable import MSWORD_FRIENDLY
+from veryprettytable import MSWORD_FRIENDLY
 x.set_style(MSWORD_FRIENDLY)
 print x
 ```
